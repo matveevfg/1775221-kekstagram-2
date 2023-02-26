@@ -8,3 +8,6 @@ function maxComLength(comment, maxLength) {
 function getRandom(min, max){
   return Math.random() * (max - min) + min;
 }
+
+maxComLength('sadasdasd', 15);
+getRandom(1, 9);
