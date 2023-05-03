@@ -23,8 +23,9 @@ const POSTS_DATA = {
   comment_max_length: 140,
 };
 
-const arrayIds = [];
+const arrayIds = [];  // массив идентификаторов комментарий
 
+// генерация комментариев
 const createComment = () => {
   const comments = [];
   let commentId;
@@ -33,14 +34,14 @@ const createComment = () => {
     commentId = getUniqueValue(arrayIds, 1, 999);
     arrayIds.push(commentId);
 
-    let messages = new Array(2)
-      .fill(null)
-      .map(() => getRandomElement(POSTS_DATA.comments))
-      .filter((item, index) => index ? getRandomInt(0, 1) : 1)
-      .reduce((result, item) => {
+    let messages = new Array(2)                                         // объявляем массив
+      .fill(null)                                                       // присваиваем null всум элементам
+      .map(() => getRandomElement(POSTS_DATA.comments))                 // заполняем случайными значениями
+      .filter((item, index) => index ? getRandomInt(0, 1) : 1)          // оставляем первый элемент (чтоб не был пустым), остальные выводим рандомно
+      .reduce((result, item) => {                                       // удаляем дубликаты
         return result.includes(item) ? result : [...result, item];
       }, [])
-      .join(' ');
+      .join(' ');                                                       // склеиваем в строку
 
     comments.push({
       id: commentId,
@@ -53,6 +54,7 @@ const createComment = () => {
   return comments;
 };
 
+// генерация постов
 const posts = new Array(POSTS_DATA.count_posts)
   .fill(null)
   .map((item, index) => {
