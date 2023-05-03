@@ -25,6 +25,7 @@ const POSTS_DATA = {
 
 const arrayIds = [];
 
+// генерация комментариев
 const createComment = () => {
   const comments = [];
   let commentId;
@@ -53,6 +54,7 @@ const createComment = () => {
   return comments;
 };
 
+// генерация постов
 const posts = new Array(POSTS_DATA.count_posts)
   .fill(null)
   .map((item, index) => {
