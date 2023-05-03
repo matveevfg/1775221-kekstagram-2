@@ -2,6 +2,7 @@ import { getRandomInt, getRandomElement, getUniqueValue } from './util.js';
 
 const POSTS_DATA = {
   count_posts: 25,
+  count_random_posts: 10,
   names: ['Иван', 'Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
   comments: [
     'Всё отлично!',
@@ -23,7 +24,8 @@ const POSTS_DATA = {
   comment_max_length: 140,
 };
 
-const arrayIds = [];
+let posts;
+const arrayIds = [];  // массив идентификаторов комментарий
 
 // генерация комментариев
 const createComment = () => {
@@ -34,14 +36,14 @@ const createComment = () => {
     commentId = getUniqueValue(arrayIds, 1, 999);
     arrayIds.push(commentId);
 
-    let messages = new Array(2)
-      .fill(null)
-      .map(() => getRandomElement(POSTS_DATA.comments))
-      .filter((item, index) => index ? getRandomInt(0, 1) : 1)
-      .reduce((result, item) => {
+    let messages = new Array(2)                                         // объявляем массив
+      .fill(null)                                                       // присваиваем null всум элементам
+      .map(() => getRandomElement(POSTS_DATA.comments))                 // заполняем случайными значениями
+      .filter((_, index) => index ? getRandomInt(0, 1) : 1)             // оставляем первый элемент (чтоб не был пустым), остальные выводим рандомно
+      .reduce((result, item) => {                                       // удаляем дубликаты
         return result.includes(item) ? result : [...result, item];
       }, [])
-      .join(' ');
+      .join(' ');                                                       // склеиваем в строку
 
     comments.push({
       id: commentId,
@@ -55,16 +57,18 @@ const createComment = () => {
 };
 
 // генерация постов
-const posts = new Array(POSTS_DATA.count_posts)
-  .fill(null)
-  .map((item, index) => {
-    return {
-      id: index + 1,
-      url: `photos/${index + 1}.jpg`,
-      description: `Описание #${index + 1}`,
-      likes: getRandomInt(15, 200),
-      comments: createComment(),
-    };
-  });
+const createPosts = () => {
+  posts = new Array(POSTS_DATA.count_posts)
+    .fill(null)
+    .map((item, index) => {
+      return {
+        id: index + 1,
+        url: `photos/${index + 1}.jpg`,
+        description: `Описание #${index + 1}`,
+        likes: getRandomInt(15, 200),
+        comments: createComment(),
+      };
+    });
+};
 
-export { POSTS_DATA, posts };
+export { POSTS_DATA, createPosts, posts };
